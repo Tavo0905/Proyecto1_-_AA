@@ -84,5 +84,3 @@ def toFile(filename, n, board, solution):
     file.write("\n")
 
 
-create_puzzle(7)
-
