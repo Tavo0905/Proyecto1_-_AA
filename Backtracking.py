@@ -38,20 +38,6 @@ def siguientePosicion(matriz, x, y, maxX, maxY, posiciones):
     return x, y
 
 def devolverse(matriz, fichas, solucion, posiciones):
-<<<<<<< Updated upstream
-    while True:
-        sol = solucion[-1]
-        solucion = solucion[:-1]
-        fichas = fichas[:-1]
-        posiciones[:-2]
-
-        if sol[2] == "H":
-            ficha = getFicha(matriz, sol[0], sol[1], "V", posiciones)
-            if ficha != False:
-                solucion.append([sol[0], sol[1], "V"])
-                fichas.append(ficha)
-                posiciones.append([sol[0], sol[1]])
-=======
     print("DEVOLVERSE")
     while True:
         print(solucion)
@@ -70,21 +56,10 @@ def devolverse(matriz, fichas, solucion, posiciones):
                 posiciones.append([sol[0], sol[1]])
                 posiciones.append([sol[0]+1, sol[1]])
                 print()
->>>>>>> Stashed changes
                 return sol[0], sol[1], fichas, solucion, posiciones
 
 def duplicas(fichas):
     encontradas = []
-<<<<<<< Updated upstream
-    
-    for i in range(len(fichas)):
-        print("fichas")
-        print(fichas)
-        print()
-        ficha = fichas[i]
-        if [ficha[0], ficha[1]] in encontradas or [ficha[1], ficha[0]] in encontradas:
-            return True
-=======
     print("fichas")
     print(fichas)
     print()
@@ -95,20 +70,15 @@ def duplicas(fichas):
             print("TRUE")
             return True
         encontradas.append(ficha)
->>>>>>> Stashed changes
     
     return False
 
 
-<<<<<<< Updated upstream
-def backtracking(matriz):
-=======
 def backtracking(n):
     matriz = False
     while (matriz == False):
         matriz = dom.create_puzzle(n)
     matriz = [[3, 0, 3, 1, 0], [2, 0, 3, 1, 1], [3, 1, 3, 2, 0], [0, 2, 2, 2, 1]]
->>>>>>> Stashed changes
     #Va probando como si todas las fichas fueran horizontales hasta que se encuentre una ficha duplicada
     #Se va devolviendo cuando hay una duplica
     fichasEncontradas = [] # [[1, 2], [2, 0], [3, 4], ...]
@@ -148,8 +118,4 @@ def backtracking(n):
     print()
     print(solucion)
 
-<<<<<<< Updated upstream
-backtracking(dom.create_puzzle(3))
-=======
 backtracking(3)
->>>>>>> Stashed changes
