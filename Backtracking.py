@@ -15,7 +15,7 @@ import dominoes as dom
 
 ############## FUNCIONES PRINCIPALES #####################
 
-def getFicha(matriz, x,  y, ori, posiciones):
+def getFicha(x,  y, ori):
     try:
         if ori == "H":
             if [x, y] not in posiciones and [x, y+1] not in posiciones:
@@ -27,37 +27,41 @@ def getFicha(matriz, x,  y, ori, posiciones):
         return False
     return False
 
-def siguientePosicion(x, y, maxX, maxY, posiciones):
+def siguientePosicion(x, y):
     while [x, y] in posiciones:
         y += 1
-        if y >= maxY:
+        if y >= maxColumnas:
             x += 1
             y = 0
-        if x >= maxX:
+        if x >= maxFilas:
             return -1, -1
     return x, y
 
-def devolverse(matriz, fichas, solucion, posiciones):
+def devolverse():
+    global solucion
+    global fichasEncontradas
+    global posiciones
+    
     while True:
         sol = solucion[-1]
         solucion = solucion[:-1]
-        fichas = fichas[:-1]
+        fichasEncontradas = fichasEncontradas[:-1]
         posiciones = posiciones[:-2]
 
         if sol[2] == "H":
-            ficha = getFicha(matriz, sol[0], sol[1], "V", posiciones)
+            ficha = getFicha(sol[0], sol[1], "V")
             if ficha != False:
                 solucion.append([sol[0], sol[1], "V"])
-                fichas.append(ficha)
+                fichasEncontradas.append(ficha)
                 posiciones.append([sol[0], sol[1]])
                 posiciones.append([sol[0]+1, sol[1]])
-                return sol[0], sol[1], fichas, solucion, posiciones
+                return sol[0], sol[1]
 
-def duplicas(fichas):
+def duplicas():
     encontradas = []
     
-    for i in range(len(fichas)):
-        ficha = fichas[i]
+    for i in range(len(fichasEncontradas)):
+        ficha = fichasEncontradas[i]
         if [ficha[0], ficha[1]] in encontradas or [ficha[1], ficha[0]] in encontradas:
             return True
         encontradas.append(ficha)
@@ -65,9 +69,10 @@ def duplicas(fichas):
     return False
 
 def imprimirSolucion(matriz, solucion):
+    posiciones.clear()
     solucionFinal = []
     for sol in solucion:
-        ficha = getFicha(matriz, sol[0], sol[1], sol[2], [])
+        ficha = getFicha(sol[0], sol[1], sol[2])
         ficha.append(sol[2])
         solucionFinal.append(ficha)
 
@@ -79,32 +84,43 @@ def imprimirSolucion(matriz, solucion):
 
 
 def backtracking(n):
+    global matriz
     matriz = False
     while (matriz == False):
         matriz = dom.create_puzzle(n)
+
     #Va probando como si todas las fichas fueran horizontales hasta que se encuentre una ficha duplicada
     #Se va devolviendo cuando hay una duplica
+
+    global fichasEncontradas
     fichasEncontradas = [] # [[1, 2], [2, 0], [3, 4], ...]
+    global solucion
     solucion = []          # [[0, 0, H], [0, 2, V], [0, 3, V], ...]
+    global posiciones
     posiciones = []        # [[0, 0], [0, 1], [0, 2], [1, 2], ...]
+
     x = 0
     y = 0
+
+    global maxFilas
     maxFilas = len(matriz)
+    global maxColumnas
     maxColumnas = len(matriz[0])
+
     while (True):
-        x, y = siguientePosicion(x, y, maxFilas, maxColumnas, posiciones)
+        x, y = siguientePosicion(x, y)
         if x == -1 or y == -1:
             break
+
         ori = "H"
-        
-        ficha = getFicha(matriz, x, y, ori, posiciones)
+        ficha = getFicha(x, y, ori)
 
         rollback = False
         if ficha == False: #Ficha fuera de rango o repite una posicion
             ori = "V"
-            ficha = getFicha(matriz, x, y, ori, posiciones)
+            ficha = getFicha(x, y, ori)
             if ficha == False:
-                x, y, fichasEncontradas, solucion, posiciones = devolverse(matriz, fichasEncontradas, solucion, posiciones)
+                x, y = devolverse()
                 rollback = True
 
         if not rollback:
@@ -115,8 +131,8 @@ def backtracking(n):
                 posiciones.append([x, y+1])
             else:
                 posiciones.append([x+1, y])
-            if duplicas(fichasEncontradas):
-                x, y, fichasEncontradas, solucion, posiciones = devolverse(matriz, fichasEncontradas, solucion, posiciones)
+            if duplicas():
+                x, y = devolverse()
     
     imprimirSolucion(matriz, solucion)
 
