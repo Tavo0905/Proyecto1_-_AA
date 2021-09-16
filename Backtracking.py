@@ -27,7 +27,7 @@ def getFicha(matriz, x,  y, ori, posiciones):
         return False
     return False
 
-def siguientePosicion(matriz, x, y, maxX, maxY, posiciones):
+def siguientePosicion(x, y, maxX, maxY, posiciones):
     while [x, y] in posiciones:
         y += 1
         if y >= maxY:
@@ -38,47 +38,50 @@ def siguientePosicion(matriz, x, y, maxX, maxY, posiciones):
     return x, y
 
 def devolverse(matriz, fichas, solucion, posiciones):
-    print("DEVOLVERSE")
     while True:
-        print(solucion)
         sol = solucion[-1]
         solucion = solucion[:-1]
         fichas = fichas[:-1]
         posiciones = posiciones[:-2]
 
         if sol[2] == "H":
-            print("H")
             ficha = getFicha(matriz, sol[0], sol[1], "V", posiciones)
             if ficha != False:
-                print("not False")
                 solucion.append([sol[0], sol[1], "V"])
                 fichas.append(ficha)
                 posiciones.append([sol[0], sol[1]])
                 posiciones.append([sol[0]+1, sol[1]])
-                print()
                 return sol[0], sol[1], fichas, solucion, posiciones
 
 def duplicas(fichas):
     encontradas = []
-    print("fichas")
-    print(fichas)
-    print()
     
     for i in range(len(fichas)):
         ficha = fichas[i]
         if [ficha[0], ficha[1]] in encontradas or [ficha[1], ficha[0]] in encontradas:
-            print("TRUE")
             return True
         encontradas.append(ficha)
     
     return False
+
+def imprimirSolucion(matriz, solucion):
+    solucionFinal = []
+    for sol in solucion:
+        ficha = getFicha(matriz, sol[0], sol[1], sol[2], [])
+        ficha.append(sol[2])
+        solucionFinal.append(ficha)
+
+    for fila in matriz:
+        print(fila)
+
+    print()
+    print(solucionFinal)
 
 
 def backtracking(n):
     matriz = False
     while (matriz == False):
         matriz = dom.create_puzzle(n)
-    matriz = [[3, 0, 3, 1, 0], [2, 0, 3, 1, 1], [3, 1, 3, 2, 0], [0, 2, 2, 2, 1]]
     #Va probando como si todas las fichas fueran horizontales hasta que se encuentre una ficha duplicada
     #Se va devolviendo cuando hay una duplica
     fichasEncontradas = [] # [[1, 2], [2, 0], [3, 4], ...]
@@ -89,7 +92,7 @@ def backtracking(n):
     maxFilas = len(matriz)
     maxColumnas = len(matriz[0])
     while (True):
-        x, y = siguientePosicion(matriz, x, y, maxFilas, maxColumnas, posiciones)
+        x, y = siguientePosicion(x, y, maxFilas, maxColumnas, posiciones)
         if x == -1 or y == -1:
             break
         ori = "H"
@@ -114,8 +117,7 @@ def backtracking(n):
                 posiciones.append([x+1, y])
             if duplicas(fichasEncontradas):
                 x, y, fichasEncontradas, solucion, posiciones = devolverse(matriz, fichasEncontradas, solucion, posiciones)
-    print(matriz)
-    print()
-    print(solucion)
+    
+    imprimirSolucion(matriz, solucion)
 
 backtracking(3)
