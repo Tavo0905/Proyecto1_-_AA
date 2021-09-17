@@ -37,6 +37,16 @@ def siguientePosicion(x, y):
             return -1, -1
     return x, y
 
+def insertarFicha(x, y, ori, ficha):
+    solucion.append([x, y, ori])
+    fichasEncontradas.append(ficha)
+    posiciones.append([x, y])
+    if ori == "H":
+        posiciones.append([x, y+1])
+    else:
+        posiciones.append([x+1, y])
+
+
 def devolverse():
     global solucion
     global fichasEncontradas
@@ -51,10 +61,7 @@ def devolverse():
         if sol[2] == "H":
             ficha = getFicha(sol[0], sol[1], "V")
             if ficha != False:
-                solucion.append([sol[0], sol[1], "V"])
-                fichasEncontradas.append(ficha)
-                posiciones.append([sol[0], sol[1]])
-                posiciones.append([sol[0]+1, sol[1]])
+                insertarFicha(sol[0], sol[1], "V", ficha)
                 return sol[0], sol[1]
 
 def duplicas():
@@ -124,13 +131,7 @@ def backtracking(n):
                 rollback = True
 
         if not rollback:
-            fichasEncontradas.append(ficha)
-            solucion.append([x, y, ori])
-            posiciones.append([x, y])
-            if ori == "H":
-                posiciones.append([x, y+1])
-            else:
-                posiciones.append([x+1, y])
+            insertarFicha(x, y, ori, ficha)
             if duplicas():
                 x, y = devolverse()
     
