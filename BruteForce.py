@@ -11,7 +11,10 @@
 
 ############## IMPORTAR FUNCIONES ################
 
+from tkinter.constants import INSERT
 import dominoes as dom
+import tkinter as tk
+import time
 
 ############## FUNCIONES PRINCIPALES #####################
 
@@ -103,6 +106,8 @@ def copiadorMatriz(matriz):
 def bruteForce(matriz):
     # Algoritmo de soluciones
     # Crea todos los escenarios posibles y los evalua
+    inicio = time.time()
+    soluciones = []
     print(matriz)
     i = 0
     repuesto = copiadorMatriz(matriz)       # Crea un repuesto de la matriz
@@ -114,16 +119,20 @@ def bruteForce(matriz):
         sol = generarSolucion(numFichas, i)         # Crea una posible solucion
         if (sol == ("1" * numFichas)):              # Ultimo caso posible     
             fichas, flag = comparador(matriz, numFichas, maxFilas, maxColumnas, sol) # Compara la solucion, ve si es valida
-            if (flag == True):                      # En caso de que sea valida, imprime el formato
-                print(adjuntarSolucion(fichas, sol))
+            if flag == True:
+                soluciones.append((adjuntarSolucion(fichas, sol), flag))
+            else:
+                soluciones.append((fichas, flag))
             break
         else:
             fichas, flag = comparador(matriz, numFichas, maxFilas, maxColumnas, sol)    # Valida si la solucion es correcta
-            if (flag == True):
-                print(adjuntarSolucion(fichas, sol))
+            if flag == True:
+                soluciones.append((adjuntarSolucion(fichas, sol), flag))
+            else:
+                soluciones.append((fichas, flag))
         i += 1
-    return
+    final = time.time()
+    return (final - inicio), soluciones
 
 
 
-bruteForce(dom.create_puzzle(3))
