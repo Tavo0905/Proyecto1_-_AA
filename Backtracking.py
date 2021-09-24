@@ -12,6 +12,7 @@
 ############## IMPORTAR FUNCIONES ################
 
 import dominoes as dom
+import time
 
 ############## FUNCIONES PRINCIPALES #####################
 
@@ -88,6 +89,7 @@ def imprimirSolucion(matriz, solucion):
 
     print()
     print(solucionFinal)
+    return solucionFinal
 
 
 def backtracking(n):
@@ -114,6 +116,7 @@ def backtracking(n):
     global maxColumnas
     maxColumnas = len(matriz[0])
 
+    inicio = time.time()
     while (True):
         x, y = siguientePosicion(x, y)
         if x == -1 or y == -1:
@@ -134,7 +137,5 @@ def backtracking(n):
             insertarFicha(x, y, ori, ficha)
             if duplicas():
                 x, y = devolverse()
-    
-    imprimirSolucion(matriz, solucion)
-
-backtracking(3)
+    final = time.time()
+    return final - inicio, imprimirSolucion(matriz, solucion)

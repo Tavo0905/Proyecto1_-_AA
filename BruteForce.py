@@ -121,18 +121,11 @@ def bruteForce(matriz):
             fichas, flag = comparador(matriz, numFichas, maxFilas, maxColumnas, sol) # Compara la solucion, ve si es valida
             if flag == True:
                 soluciones.append((adjuntarSolucion(fichas, sol), flag))
-            else:
-                soluciones.append((fichas, flag))
             break
         else:
             fichas, flag = comparador(matriz, numFichas, maxFilas, maxColumnas, sol)    # Valida si la solucion es correcta
             if flag == True:
                 soluciones.append((adjuntarSolucion(fichas, sol), flag))
-            else:
-                soluciones.append((fichas, flag))
         i += 1
     final = time.time()
     return (final - inicio), soluciones
-
-
-

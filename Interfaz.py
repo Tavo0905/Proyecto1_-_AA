@@ -14,9 +14,8 @@
 ################ IMPORTAR MODULOS #####################
 
 from tkinter.constants import END, INSERT
-
-from numpy.lib.function_base import insert
 from BruteForce import bruteForce
+from Backtracking import backtracking
 from dominoes import create_puzzle
 from tkinter import messagebox as mb
 import tkinter as tk
@@ -85,18 +84,13 @@ class hiloBacktracking(threading.Thread):
     def run (self):
         self.solucionBox.insert(INSERT, "Generando solucion, espere un momento...")
         self.solucionBox.place(x = 20, y = 350)
-        #self.tiempo, self.soluciones = backtracking(self.matrizSol)     # Algoritmo puro de backtracking
+        self.tiempo, self.soluciones = backtracking(len(self.matrizSol) - 1)     # Algoritmo puro de backtracking
         self.tiempoLabel.config(text = self.tiempo)
         self.tiempoLabel.place(x = 355, y = 657)
         self.solucionBox.delete("1.0", "end")
-    
-        for solucion in self.soluciones:            # Despliega las soluciones
-            if solucion[1] == True:                 # Cuando la solución es válida
-                self.solValidas += str(solucion[0]) + "\n---------------------------------------------------------\n"
-            self.solucionBox.insert(INSERT, self.solValidas + str(solucion[0]))
-            time.sleep(0.005)
-            self.solucionBox.delete("1.0", "end")
-        self.solucionBox.insert(INSERT, self.solValidas + "FINAL DE SOLUCIONES")
+        self.solucionBox.insert(INSERT, str(self.soluciones))
+        self.solucionBox.insert(INSERT, "\n---------------------------------------------------------\n")
+        self.solucionBox.insert(INSERT, "FINAL DE SOLUCIONES")
 
 
 ################ FUNCIONES ######################
