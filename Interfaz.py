@@ -37,7 +37,7 @@ class hiloBruteForce(threading.Thread):
                 -Tiempo de ejecucion
     """
     def __init__(self, pantalla, matriz):
-        self.solucionBox = tk.Text(pantalla, width = 57, height = 15)
+        self.solucionBox = tk.Text(pantalla, width = 57, height = 12)
         self.tiempoLabel = tk.Label(pantalla)
         self.matrizSol = matriz
         self.tiempo = 0
@@ -47,10 +47,10 @@ class hiloBruteForce(threading.Thread):
     
     def run (self):
         self.solucionBox.insert(INSERT, "Generando solucion, espere un momento...")
-        self.solucionBox.place(x = 20, y = 350)
+        self.solucionBox.place(x = 20, y = 330)
         self.tiempo, self.soluciones = bruteForce(self.matrizSol)       # Algoritmo puro de fuerza bruta
         self.tiempoLabel.config(text = self.tiempo)
-        self.tiempoLabel.place(x = 355, y = 657)
+        self.tiempoLabel.place(x = 355, y = 557)
         self.solucionBox.delete("1.0", "end")
     
         for solucion in self.soluciones:        # Despliega las soluciones
@@ -73,7 +73,7 @@ class hiloBacktracking(threading.Thread):
                 -Tiempo de ejecucion
     """
     def __init__(self, pantalla, matriz):
-        self.solucionBox = tk.Text(pantalla, width = 57, height = 15)
+        self.solucionBox = tk.Text(pantalla, width = 57, height = 12)
         self.tiempoLabel = tk.Label(pantalla)
         self.matrizSol = matriz
         self.tiempo = 0
@@ -83,10 +83,10 @@ class hiloBacktracking(threading.Thread):
     
     def run (self):
         self.solucionBox.insert(INSERT, "Generando solucion, espere un momento...")
-        self.solucionBox.place(x = 20, y = 350)
+        self.solucionBox.place(x = 20, y = 330)
         self.tiempo, self.soluciones = backtracking(len(self.matrizSol) - 1)     # Algoritmo puro de backtracking
         self.tiempoLabel.config(text = self.tiempo)
-        self.tiempoLabel.place(x = 355, y = 657)
+        self.tiempoLabel.place(x = 355, y = 557)
         self.solucionBox.delete("1.0", "end")
         self.solucionBox.insert(INSERT, str(self.soluciones))
         self.solucionBox.insert(INSERT, "\n---------------------------------------------------------\n")
@@ -120,7 +120,7 @@ def pruebaGUI(cantFichas, opcion):
             strMatriz = "False"
         
     
-        pantalla = tk.Frame(ventana, width = 500, height = 700)
+        pantalla = tk.Frame(ventana, width = 500, height = 600)
         pantalla.place(x = 0, y = 0)
 
         if opcion == 1:
@@ -131,20 +131,20 @@ def pruebaGUI(cantFichas, opcion):
             tituloP.place(x = 1, y = 1)
 
         matrizTxt = tk.Label(pantalla, text = "Matriz generada:", font = ("Arial", 16))
-        matrizTxt.place(x = 10, y = 70)
+        matrizTxt.place(x = 10, y = 40)
 
         solucionTxt = tk.Label(pantalla, text = "Solucion:", font = ("Arial", 16))
-        solucionTxt.place(x = 10, y = 320)
+        solucionTxt.place(x = 10, y = 290)
 
         tiempoTxt = tk.Label(pantalla, text = "Tiempo de ejecucion:", font = ("Arial", 12))
-        tiempoTxt.place(x = 200, y = 655)
+        tiempoTxt.place(x = 200, y = 555)
 
         volver = tk.Button(pantalla, width = 10, text = "Volver", font = ("Arial", 12), bg = "gray70", command = pantalla.destroy)
-        volver.place(x = 10, y = 655)
+        volver.place(x = 10, y = 555)
 
         matrizBox = tk.Text(pantalla, width = 30, height = 15)
         matrizBox.insert(INSERT, strMatriz)
-        matrizBox.place(x = 200, y = 70)
+        matrizBox.place(x = 200, y = 40)
 
         if opcion == 1:
             hiloBruteForce(pantalla, matriz).start()
@@ -161,7 +161,7 @@ def pruebaGUI(cantFichas, opcion):
 ############### PROGRAMA PRINCIPAL ################
 
 ventana = tk.Tk()
-ventana.geometry("500x700")
+ventana.geometry("500x600")
 ventana.title("Juego de dominoes")
 
 titulo = tk.Label(ventana, text = "Juego de dominoes", font = ("Arial", 28))
