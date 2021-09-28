@@ -139,7 +139,3 @@ def backtracking(n):
                 x, y = devolverse()
     final = time.time()
     return final - inicio, imprimirSolucion(matriz, solucion)
-
-
-
-#print(backtracking(6))
